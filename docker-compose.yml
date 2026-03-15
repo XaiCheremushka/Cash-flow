@@ -1,0 +1,87 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: cashflow-db
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      # указываем именованный том
+      - cashflow-data-db:/var/lib/postgresql/data
+    networks:
+      - dbnet
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  nginx:
+    image: nginx:1.29-alpine
+    container_name: cashflow-nginx
+    restart: always
+    networks:
+      - dbnet
+    expose:
+      - 8088 # Внутренний порт
+    ports:
+      - "80:8088" # Пробрасываем порты <внешний порт>:<внутренний порт внутри контейнера>
+    volumes:
+      - ./cashflow/staticfiles:/app/www/cashflow/staticfiles
+      - ./nginx/nginx_global.conf:/etc/nginx/nginx.conf
+      - ./nginx/config.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/proxy_headers.conf:/etc/nginx/proxy_headers.conf
+    depends_on:
+      - cashflow_server
+    cpus: "0.50"
+
+  cashflow_server: # Основной сервер
+    build: ./cashflow
+    image: cashflow-django:v0.1
+    container_name: cashflow-server
+    restart: always
+    command: >
+      bash -c "
+      python manage.py collectstatic --noinput &&
+      python manage.py makemigrations &&
+      python manage.py migrate &&
+      gunicorn -c gunicorn.py cashflow.wsgi
+      "
+    env_file:
+      - .env
+    networks:
+      - dbnet
+    expose:
+      - 8000 # Внутренний порт
+    volumes:
+      - ./cashflow:/app/www/cashflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "9090:80"
+    depends_on:
+      - postgres
+    networks:
+      - dbnet
+    env_file:
+      - .env
+    volumes:
+      - cashflow-pgadmin-data:/var/lib/pgadmin
+
+networks:
+  dbnet:
+    driver: bridge
+
+volumes:
+  cashflow-data-db:
+  cashflow-pgadmin-data:
