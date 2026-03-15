@@ -33,7 +33,4 @@ RUN pip install --upgrade pip && \
 # Копируем ВЕСЬ проект
 COPY . .
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 USER userCashFlowDj

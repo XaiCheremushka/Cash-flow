@@ -1,6 +1,7 @@
 
 from pathlib import Path
 
+import finance
 from config import conf
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'finance',
 ]
 
 MIDDLEWARE = [
@@ -88,11 +90,6 @@ DATABASES = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Папка, куда будут собираться статические файлы
-# Для разработки
-if DEBUG:
-    STATICFILES_DIRS = [
-        BASE_DIR / 'static'
-    ]
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'

@@ -1,0 +1,123 @@
+[
+  {
+    "model": "finance.status",
+    "pk": 1,
+    "fields": {
+      "name": "Бизнес",
+      "slug": "biznes"
+    }
+  },
+  {
+    "model": "finance.status",
+    "pk": 2,
+    "fields": {
+      "name": "Личное",
+      "slug": "lichnoe"
+    }
+  },
+  {
+    "model": "finance.status",
+    "pk": 3,
+    "fields": {
+      "name": "Налог",
+      "slug": "nalog"
+    }
+  },
+  {
+    "model": "finance.type",
+    "pk": 1,
+    "fields": {
+      "name": "Пополнение",
+      "slug": "popolnenie"
+    }
+  },
+  {
+    "model": "finance.type",
+    "pk": 2,
+    "fields": {
+      "name": "Списание",
+      "slug": "spisanie"
+    }
+  },
+  {
+    "model": "finance.currency",
+    "pk": 1,
+    "fields": {
+      "name": "Российский рубль",
+      "code": "RUB",
+      "symbol": "₽"
+    }
+  },
+  {
+    "model": "finance.currency",
+    "pk": 2,
+    "fields": {
+      "name": "Доллар США",
+      "code": "USD",
+      "symbol": "$"
+    }
+  },
+  {
+    "model": "finance.currency",
+    "pk": 3,
+    "fields": {
+      "name": "Евро",
+      "code": "EUR",
+      "symbol": "€"
+    }
+  },
+  {
+    "model": "finance.category",
+    "pk": 1,
+    "fields": {
+      "name": "Инфраструктура",
+      "type": 2,
+      "slug": "infrastruktura"
+    }
+  },
+  {
+    "model": "finance.category",
+    "pk": 2,
+    "fields": {
+      "name": "Маркетинг",
+      "type": 2,
+      "slug": "marketing"
+    }
+  },
+  {
+    "model": "finance.subcategory",
+    "pk": 1,
+    "fields": {
+      "name": "VPS",
+      "category": 1,
+      "slug": "vps"
+    }
+  },
+  {
+    "model": "finance.subcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Proxy",
+      "category": 1,
+      "slug": "proxy"
+    }
+  },
+  {
+    "model": "finance.subcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Farpost",
+      "category": 2,
+      "slug": "farpost"
+    }
+  },
+  {
+    "model": "finance.subcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Avito",
+      "category": 2,
+      "slug": "avito"
+    }
+  }
+]
