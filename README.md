@@ -6,7 +6,7 @@
 
 ## БД 
 
-
+![Untitled](https://github.com/user-attachments/assets/c2271ae5-c2f5-4bf3-9cc9-0359479663a5)
 
 ---
 # Технологии
