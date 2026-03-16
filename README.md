@@ -77,6 +77,7 @@ exit
 #### После запуска проект будет доступен:
 
 Админ-панель: http://localhost/admin (логин: root, пароль: root)
+
 Swagger-документация к API: http://localhost/api/v1/schema/swagger-ui/
 
 ### 6. Выключение контейнеров:
