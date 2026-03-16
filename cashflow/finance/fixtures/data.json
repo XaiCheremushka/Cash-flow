@@ -71,7 +71,7 @@
     "pk": 1,
     "fields": {
       "name": "Инфраструктура",
-      "type": 2,
+      "type": 1,
       "slug": "infrastruktura"
     }
   },
