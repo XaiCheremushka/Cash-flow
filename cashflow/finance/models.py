@@ -31,7 +31,14 @@ class Category(models.Model):
         verbose_name_plural = 'Категории денежных потоков'
 
     name = models.CharField(verbose_name='Категория', null=False, blank=False)
-    type = models.ForeignKey(Type, verbose_name='Тип', null=False, blank=False, on_delete=models.CASCADE)
+    type = models.ForeignKey(
+        Type,
+        verbose_name='Тип',
+        related_name='category',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE
+    )
     slug = models.SlugField(verbose_name='slug', null=False, blank=False)
 
     def __str__(self):
@@ -63,7 +70,6 @@ class Subcategory(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-
 
 
 class Status(models.Model):
@@ -104,15 +110,17 @@ class CashFlow(models.Model):
         verbose_name = 'Денежный поток'
         verbose_name_plural = 'Денежные потоки'
 
-    subcategory = models.ForeignKey(Subcategory, verbose_name='Подкатегория', null=False, blank=False, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, verbose_name='Категория', null=False, blank=False, on_delete=models.PROTECT)
+    subcategory = models.ForeignKey(Subcategory, verbose_name='Подкатегория', null=False, blank=False,
+                                    on_delete=models.PROTECT, default=1)
     type = models.ForeignKey(Type, verbose_name='Тип', null=False, blank=False, on_delete=models.PROTECT)
     status = models.ForeignKey(Status, verbose_name='Статус', null=False, blank=False, on_delete=models.PROTECT)
     amount = models.DecimalField(verbose_name="Сумма", max_digits=10, decimal_places=2)
     currency = models.ForeignKey(Currency,
                                  verbose_name="Валюта",
                                  default=get_currency,
-                                 null = False,
-                                 blank = False,
+                                 null=False,
+                                 blank=False,
                                  on_delete=models.PROTECT)
     comment = models.TextField(verbose_name="Комментарий", null=True, blank=True)
     date_created = models.DateField(verbose_name='Дата создания', null=False, blank=True)

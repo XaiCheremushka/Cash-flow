@@ -1,5 +1,7 @@
 from django.contrib import admin
+from rangefilter.filters import DateRangeFilter
 
+from .forms import CashFlowAdminForm
 from .models import *
 
 
@@ -55,9 +57,23 @@ class CashFlowCurrencyAdmin(admin.ModelAdmin):
 
 @admin.register(CashFlow)
 class CashFlowAdmin(admin.ModelAdmin):
-    fields = ['date_created', 'status', 'type', 'subcategory', 'amount', 'currency', 'comment']
+    form = CashFlowAdminForm
 
-    list_display = ['date_created', 'status', 'type', 'subcategory', 'amount', 'currency']
+    fields = ['date_created', 'status', 'type', 'category', 'subcategory', 'amount', 'currency', 'comment']
+
+    list_display = ['date_created', 'status', 'type', 'category', 'subcategory', 'amount', 'comment']
     list_display_links = ['date_created']
     ordering = ['-date_created']
-    list_filter = ['date_created', 'status', 'type', 'subcategory']
+    list_filter = [
+        ('date_created', DateRangeFilter),
+        'status',
+        'type',
+        'category',
+        'subcategory'
+    ]
+
+    class Media:
+        js = (
+            'finance/js/admin/fullscreen_loader.js',
+            'finance/js/admin/cash_flow_admin.js',
+        )
